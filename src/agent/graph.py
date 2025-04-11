@@ -9,6 +9,7 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.graph import StateGraph
 
 from agent.configuration import Configuration
+from agent.nodes.call_model import call_model
 from agent.state import State
 
 
@@ -28,10 +29,10 @@ async def my_node(state: State, config: RunnableConfig) -> Dict[str, Any]:
 workflow = StateGraph(State, config_schema=Configuration)
 
 # Add the node to the graph
-workflow.add_node("my_node", my_node)
+workflow.add_node("call_model", call_model)
 
 # Set the entrypoint as `call_model`
-workflow.add_edge("__start__", "my_node")
+workflow.add_edge("__start__", "call_model")
 
 # Compile the workflow into an executable graph
 graph = workflow.compile()

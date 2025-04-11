@@ -1,17 +1,26 @@
-"""Define the state structures for the agent."""
+"""This module defines the State class and its associated functionality.
 
-from __future__ import annotations
+The State class is a TypedDict that represents a state with a list of messages.
+The `add_messages` function is used to define how the messages key should be updated.
+"""
 
-from dataclasses import dataclass
+from typing import Annotated, Sequence
+
+from langchain_core.messages import BaseMessage
+from langgraph.graph.message import add_messages
+from typing_extensions import TypedDict
 
 
-@dataclass
-class State:
-    """Defines the input state for the agent, representing a narrower interface to the outside world.
+class State(TypedDict):
+    """Represents a state with a list of messages.
 
-    This class is used to define the initial state and structure of incoming data.
-    See: https://langchain-ai.github.io/langgraph/concepts/low_level/#state
-    for more information.
+    Attributes:
+    ----------
+    messages : Annotated[list, add_messages]
+        A list of messages where the `add_messages` function defines how
+        this key should be updated (appends messages to the list).
     """
-
-    changeme: str = "example"
+    # Messages have the type "list". The `add_messages` function
+    # in the annotation defines how this state key should be updated
+    # (in this case, it appends messages to the list, rather than overwriting them)
+    messages: Annotated[Sequence[BaseMessage], add_messages]
