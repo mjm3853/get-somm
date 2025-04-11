@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  unit-tests:
-    name: Unit Tests
+  static-checks:
+    name: Static Checks
     strategy:
       matrix:
         os: [ubuntu-latest]
