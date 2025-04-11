@@ -43,5 +43,14 @@ jobs:
           uv run mypy --strict src/
       - name: Run tests with pytest
         run: |
-          uv pip install pytest
+          uv pip install pytest pytest-cov pytest-html
           uv run pytest tests/unit_tests
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            tests/reports/coverage/
+            tests/reports/results/
+          retention-days: 30
