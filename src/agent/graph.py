@@ -35,4 +35,4 @@ workflow.add_edge("__start__", "my_node")
 
 # Compile the workflow into an executable graph
 graph = workflow.compile()
-graph.name = "New Graph"  # This defines the custom name in LangSmith
+graph.name = "Somm"  # This defines the custom name in LangSmith

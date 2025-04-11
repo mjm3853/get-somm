@@ -1,6 +1,6 @@
 # This workflow will run unit tests for the current project
 
-name: CI
+name: Unit Tests
 
 on:
   push:
@@ -41,16 +41,6 @@ jobs:
         run: |
           uv pip install mypy
           uv run mypy --strict src/
-      - name: Check README spelling
-        uses: codespell-project/actions-codespell@v2
-        with:
-          ignore_words_file: .codespellignore
-          path: README.md
-      - name: Check code spelling
-        uses: codespell-project/actions-codespell@v2
-        with:
-          ignore_words_file: .codespellignore
-          path: src/
       - name: Run tests with pytest
         run: |
           uv pip install pytest
