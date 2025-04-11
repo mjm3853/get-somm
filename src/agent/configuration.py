@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, fields
+from dataclasses import dataclass, field, fields
 from typing import Optional
 
 from langchain_core.runnables import RunnableConfig
+
+from agent.prompts import SYSTEM_PROMPT
 
 
 @dataclass(kw_only=True)
@@ -18,6 +20,13 @@ class Configuration:
     # and when you invoke the graph
     model_name: str = "claude-3-5-sonnet-latest"
     model_provider: str = "anthropic"
+    system_prompt: str = field(
+        default=SYSTEM_PROMPT,
+        metadata={
+            "description": "The system prompt to use for the agent's interactions. "
+            "This prompt sets the context and behavior for the agent."
+        },
+    )
 
     @classmethod
     def from_runnable_config(
