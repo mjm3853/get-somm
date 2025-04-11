@@ -18,7 +18,7 @@ default_handler.setFormatter(
 )
 logger.addHandler(default_handler)
 
-def setup_logging(level=logging.INFO):
+def setup_logging(level: int = logging.INFO) -> None:
     """Reconfigure the logging level for the logger.
 
     Args:
