@@ -3,9 +3,8 @@
 This agent returns a predefined response without using an actual LLM.
 """
 
-from langgraph.graph import StateGraph
-
 from langchain_core.messages import AIMessage
+from langgraph.graph import StateGraph
 
 from agent.configuration import Configuration
 from agent.nodes.head_somm import head_somm
