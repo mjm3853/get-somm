@@ -7,8 +7,8 @@ from langchain_core.runnables import RunnableConfig
 
 from agent.configuration import Configuration
 from agent.state import State
-from agent.utils.init_model import init_model
 from agent.tools.wine_reader import wine_reader
+from agent.utils.init_model import init_model
 
 
 def head_somm(state: State, config: RunnableConfig) -> Dict[str, Any]:
