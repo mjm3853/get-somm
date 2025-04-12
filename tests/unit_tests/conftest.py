@@ -5,6 +5,7 @@ from langchain.schema import AIMessage, HumanMessage
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import BaseMessage
 from langchain_core.runnables import RunnableConfig
+from langchain_core.tools import BaseTool
 
 from agent.state import State
 
@@ -40,9 +41,22 @@ class MockChatModel(BaseChatModel):
     def _llm_type(self) -> str:
         return "mock"
 
+class MockChatModelWithTools(MockChatModel):
+    bound_tools: ClassVar[Optional[List[BaseTool]]] = None
+
+    def bind_tools(self, tools, **kwargs):
+        # Store the tools for inspection if needed
+        MockChatModelWithTools.bound_tools = tools
+        # Return self to allow method chaining
+        return self
+
 @pytest.fixture
 def mock_chat_model():
     # Reset tracking before each test
     MockChatModel.invoke_count = 0
     MockChatModel.last_messages = None
     return MockChatModel()
+
+@pytest.fixture
+def mock_chat_model_with_tools():
+    return MockChatModelWithTools()

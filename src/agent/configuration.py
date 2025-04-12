@@ -7,7 +7,7 @@ from typing import Optional
 
 from langchain_core.runnables import RunnableConfig
 
-from agent.prompts import HEAD_SOMM_PROMPT
+from agent.prompts import HEAD_SOMM_PROMPT, WINE_LIST_PROMPT
 
 
 @dataclass(kw_only=True)
@@ -22,6 +22,13 @@ class Configuration:
     model_provider: str = "anthropic"
     head_somm_prompt: str = field(
         default=HEAD_SOMM_PROMPT,
+        metadata={
+            "description": "The system prompt to use for the agent's interactions. "
+            "This prompt sets the context and behavior for the agent."
+        },
+    )
+    wine_list_prompt: str = field(
+        default=WINE_LIST_PROMPT,
         metadata={
             "description": "The system prompt to use for the agent's interactions. "
             "This prompt sets the context and behavior for the agent."

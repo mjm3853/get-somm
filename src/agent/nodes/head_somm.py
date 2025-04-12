@@ -8,6 +8,7 @@ from langchain_core.runnables import RunnableConfig
 from agent.configuration import Configuration
 from agent.state import State
 from agent.utils.init_model import init_model
+from agent.tools.wine_reader import wine_reader
 
 
 def head_somm(state: State, config: RunnableConfig) -> Dict[str, Any]:
@@ -30,5 +31,8 @@ def head_somm(state: State, config: RunnableConfig) -> Dict[str, Any]:
     # Create a SystemMessage from the system_prompt
     system_message = SystemMessage(content=system_prompt)
     model = init_model(config)
+    model_with_tools = model.bind_tools(
+        tools=[wine_reader]
+    )
 
-    return {"messages": [model.invoke([system_message] + list(state["messages"]))]}
+    return {"messages": [model_with_tools.invoke([system_message] + list(state["messages"]))]}

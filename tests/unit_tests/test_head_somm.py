@@ -5,10 +5,10 @@ from agent.nodes.head_somm import head_somm
 from agent.state import State
 
 
-def test_head_somm(mocker, basic_config, mock_chat_model):
+def test_head_somm(mocker, basic_config, mock_chat_model_with_tools):
     """Test head_somm function with basic configuration."""
     # Setup mock model
-    mock_llm = mock_chat_model
+    mock_llm = mock_chat_model_with_tools
     mocker.patch("agent.nodes.head_somm.init_model", return_value=mock_llm)
     
     # Setup test state
@@ -28,3 +28,6 @@ def test_head_somm(mocker, basic_config, mock_chat_model):
     assert mock_llm.last_messages is not None
     assert isinstance(mock_llm.last_messages[0], SystemMessage)
     assert mock_llm.last_messages[0].content == basic_config["configurable"]["head_somm_prompt"]
+    
+    # Verify tools were bound
+    assert hasattr(mock_llm, 'bound_tools')
