@@ -40,30 +40,28 @@ def should_continue(state: State) -> str:
 # Define a new graph
 workflow = StateGraph(State, config_schema=Configuration)
 
-# Add the node to the graph
+# Add nodes for the sommelier agent and tool executor
 workflow.add_node("head_somm", head_somm)
 workflow.add_node("tools", tool_node)
 
-# We now add a conditional edge
+# Add conditional edges to control the flow between nodes
 workflow.add_conditional_edges(
-    # First, we define the start node. We use `agent`.
-    # This means these are the edges taken after the `agent` node is called.
+    # The source node is head_somm (the sommelier agent)
     "head_somm",
-    # Next, we pass in the function that will determine which node is called next.
+    # Function that checks if we need to execute tools
     should_continue,
     {
-        # If `tools`, then we call the tool node.
+        # If tools are requested, route to the tool executor
         "continue": "tools",
-        # Otherwise we finish.
+        # If no tools needed, end the conversation
         "end": "__end__",
     },
 )
 
+# Configure the workflow edges
+workflow.add_edge("__start__", "head_somm")  # Start with the sommelier agent
+workflow.add_edge("tools", "head_somm")      # Return to agent after tool execution
 
-# Set the entrypoint as `call_model`
-workflow.add_edge("__start__", "head_somm")
-workflow.add_edge("tools", "head_somm") 
-
-# Compile the workflow into an executable graph
+# Create the executable graph
 graph = workflow.compile()
-graph.name = "BirdSomm"  # This defines the custom name in LangSmith
+graph.name = "BirdSomm"  # Name for tracking in LangSmith
