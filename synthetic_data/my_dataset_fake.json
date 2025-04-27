@@ -1,0 +1,177 @@
+[
+    {
+        "input": "Assess the month-end report and ascertain trends from customer foot traffic patterns.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "What was the cumulative revenue of all retail outlets in Q3, incl. online sales?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "What if customer sign-ups doubled unexpectedly this week? How would that affect business projections?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Determine the avg customer age by analyzing demographic data trends & purchase histories.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How do the sales of last year's top-selling product compare to its competitors?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Taking into account various delivery times and order statuses, calculate the total number of successfully completed orders placed over the past 24 hours.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Quantify the breadth of our current inventory portfolio across diverse product lines.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How do customer preferences for credit cards compare to digital payment systems and cash?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Analyze sales data trends and multifactorial market influences to identify the top-selling products in September.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Imagine a store suddenly doubled its sales. What factors might contribute to this surge?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Determine the current employee count per department, considering part-time vs full-time distinctions and recent staff changes.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How do inventory management strategies for out-of-stock products differ between e-commerce and physical stores?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Identify which month experienced the peak in new customer registrations, while analyzing any potential influences from marketing initiatives or seasonal trends.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Imagine AI tech doubles the average purchase value. How might this alter consumer spending behavior?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How frequently was the 'SUMMER2023' promo code utilized in the Q3 fiscal transactions?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Imagine if every customer who spent over $500 initiated a loyalty program. What trends emerge?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "What are the similarities and differences in return rates between electronics, clothing, and appliances?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Analyze daily redemption metrics of loyalty points to optimize customer engagement strategies.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How does the typical customer order composition, averaging specific item types, influence sales metrics?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Identify the metropolis with the highest density of engaged digital platform participants.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Compute the aggregate feedback count by cross-referencing daily records from multiple data sources.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Analyze the gender distribution within executive roles to assess inclusivity and diversity progress.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Imagine recent service changes led to a significant shift in feedback. How might this affect last month's customer satisfaction ratings?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Tabulate all transactions featuring the gift purchase option for comprehensive sales insights.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Imagine a sudden surge in user inactivity over 90 days; what insights could be drawn?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    }
+]

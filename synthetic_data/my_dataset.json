@@ -1,0 +1,177 @@
+[
+    {
+        "input": "When selecting an introductory cocktail, consider balanced flavors, ease of preparation, and accessibility of ingredients.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "\"Suggest a superior vintage pairing for an assorted marine delicacy array.\"",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Which specific beer varieties pair exceptionally with Neapolitan-style pizza for optimal flavor harmony?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Compare the key ingredients and flavor profiles of a fruity cocktail versus a classic martini.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Suppose a pre-meal drink could enhance one's dining experience. Which drink might revolutionize taste perception?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "\"Identify which white wines in your collection are off-dry, and evaluate their suitability for pairing with various cuisines, considering the implications of their residual sugar levels on both taste and texture.\"",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "What flavor profiles are associated with top-rated IPAs and how do they influence taste preference?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "\"In a utopia where time and money are limitless, what ultimate bday celebration would ensue?\"",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Which wine by the glass offers the best quality to price ratio in your selection?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "While savoring steak, what characteristics should one consider in selecting an ideal red wine pairing to enhance flavor complexity and complement diverse seasoning or cooking methods?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "\"Suggest a balanced aperitif cocktail with minimal sweetness for a sophisticated palate.\"",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Consider the interplay of flavor, occasion suitability, and carbonation levels for a sparkling drink recommendation.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How do acidity and tannins in wine complement spicy dishes' diverse flavor profiles?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How does the sweetness of port compare to ice wine, and what influences their pairing with desserts?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Consider how flavor profiles of your beer selections align with preferences for light lagers.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Contrast the brewing processes, yeast types, and flavor profiles of ale vs. lager.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "\"Which craft beer pairs best with smoked meats like ribs?\"",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Considering a preference for beers with citrus notes, identify recommended options that also feature unique brewing techniques or sustainability practices in their production.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How does the combination of gin, vermouth, and olives create the quintessential classic martini?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "\"Recommend an exquisite organic wine pairing for a plant-based gourmet meal.\"",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "\"Which artisanal sparklers offer unique flavors for a festive gathering?\"",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How does the flavor profile of local beer compare to international craft beer varieties?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Compare the value and taste profiles of affordable wines for an ideal dinner date.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "How do wine pairings for cheesy lasagna vary between Italian reds and French whites?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "While enjoying dessert, can you recommend a sweet wine that complements both chocolate and fruit-based dishes, considering its acidity and aroma?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    }
+]

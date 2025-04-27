@@ -1,0 +1,22 @@
+[
+    {
+        "input": "What beer would you recommend to pair with our exotic cuisine tonight?",
+        "actual_output": null,
+        "expected_output": "I'd be happy to help you find the perfect drink for your exotic cuisine tonight! Could you let me know if your cuisine leans more towards spicy, savory, or sweet flavors? For dishes with spice, an IPA with citrus notes and a crisp finish can be a wonderful choice as it complements and balances spicier flavors. If you're aiming for something with a milder profile, a light and refreshing lager might suit your meal beautifully. We also have a selection of beers at different price points, so let me know if you have a budget in mind. Would you like to explore some of these options further?",
+        "context": [
+            "Wine is good",
+            "Beer is great"
+        ],
+        "source_file": null
+    },
+    {
+        "input": "I'm looking for a mid-priced ale or stout with a balanced hop-malt profile. What would you recommend?",
+        "actual_output": null,
+        "expected_output": "I'd be happy to help you find the perfect drink! Do you lean more towards an ale or a stout when enjoying a balanced hop-malt profile? For a mid-priced option, you might enjoy our locally crafted English Pale Ale, which offers a wonderful balance of floral hops and a slightly sweet malt backbone. It's smooth with a touch of caramel, providing a satisfying finish. If you prefer something with richer flavors, our Milk Stout could be an excellent choice—it boasts creamy textures with hints of chocolate and roasted coffee, making it a comforting option.\n\nBoth would pair nicely with hearty dishes like a beef stew or grilled sausages. Would you like to explore some samples to find your favorite?",
+        "context": [
+            "Wine is good",
+            "Beer is great"
+        ],
+        "source_file": null
+    }
+]
