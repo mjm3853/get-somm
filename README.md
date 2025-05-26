@@ -25,3 +25,7 @@ Get image name and add to .env
 Navigate to `http://localhost:8123/docs`
 
 Or call via `uv run client/index.py`
+
+## Deep Eval Tests
+
+`uv run deepeval test run tests/deep_eval/test_cases.py`
