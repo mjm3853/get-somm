@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import uuid
 from dataclasses import dataclass, field, fields
 from typing import Optional
 
@@ -25,6 +26,13 @@ class Configuration:
         metadata={
             "description": "The system prompt to use for the agent's interactions. "
             "This prompt sets the context and behavior for the agent."
+        },
+    )
+    session_id: str = field(
+        default=str(uuid.uuid4()),
+        metadata={
+            "description": "The session ID for the agent's interactions. "
+            "This ID is used to track the agent's interactions across sessions."
         },
     )
 

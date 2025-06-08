@@ -8,11 +8,13 @@ dependencies = [
     "deepeval>=2.9.7",
     "langchain-experimental>=0.3.4",
     "langchain[anthropic]>=0.3.23",
+    "langfuse>=3.0.0",
     "langgraph>=0.3.28",
     "langgraph-cli[inmem]>=0.2.3",
     "pandas>=2.2.3",
     "pandas-stubs>=2.2.3.250308",
     "python-dotenv>=1.1.0",
+    "uuid>=1.30",
 ]
 
 [dependency-groups]

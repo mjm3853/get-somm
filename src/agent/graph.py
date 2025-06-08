@@ -3,13 +3,22 @@
 This agent returns a predefined response without using an actual LLM.
 """
 
+from dotenv import load_dotenv
 from langchain_core.messages import AIMessage
+from langfuse import get_client
+from langfuse.langchain import CallbackHandler
 from langgraph.graph import StateGraph
 
 from agent.configuration import Configuration
 from agent.nodes.head_somm import head_somm
 from agent.nodes.tool_node import tool_node
 from agent.state import State
+
+load_dotenv()
+
+langfuse = get_client()
+
+langfuse_handler = CallbackHandler()
 
 
 # Define the conditional edge that determines whether to continue or not
@@ -37,6 +46,7 @@ def should_continue(state: State) -> str:
     # Otherwise if there is, we continue
     return "continue"
 
+
 # Define a new graph
 workflow = StateGraph(State, config_schema=Configuration)
 
@@ -60,8 +70,8 @@ workflow.add_conditional_edges(
 
 # Configure the workflow edges
 workflow.add_edge("__start__", "head_somm")  # Start with the sommelier agent
-workflow.add_edge("tools", "head_somm")      # Return to agent after tool execution
+workflow.add_edge("tools", "head_somm")  # Return to agent after tool execution
 
 # Create the executable graph
-graph = workflow.compile()
-graph.name = "BirdSomm"  # Name for tracking in LangSmith
+graph = workflow.compile().with_config({"callbacks": [langfuse_handler]})
+graph.name = "GetSomm"  # Name for tracking in LangSmith

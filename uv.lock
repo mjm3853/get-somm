@@ -762,11 +762,13 @@ dependencies = [
     { name = "deepeval" },
     { name = "langchain", extra = ["anthropic"] },
     { name = "langchain-experimental" },
+    { name = "langfuse" },
     { name = "langgraph" },
     { name = "langgraph-cli", extra = ["inmem"] },
     { name = "pandas" },
     { name = "pandas-stubs" },
     { name = "python-dotenv" },
+    { name = "uuid" },
 ]
 
 [package.dev-dependencies]
@@ -787,11 +789,13 @@ requires-dist = [
     { name = "deepeval", specifier = ">=2.9.7" },
     { name = "langchain", extras = ["anthropic"], specifier = ">=0.3.23" },
     { name = "langchain-experimental", specifier = ">=0.3.4" },
+    { name = "langfuse", specifier = ">=3.0.0" },
     { name = "langgraph", specifier = ">=0.3.28" },
     { name = "langgraph-cli", extras = ["inmem"], specifier = ">=0.2.3" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "pandas-stubs", specifier = ">=2.2.3.250308" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
+    { name = "uuid", specifier = ">=1.30" },
 ]
 
 [package.metadata.requires-dev]
@@ -1367,6 +1371,26 @@ wheels = [
 ]
 
 [[package]]
+name = "langfuse"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "backoff" },
+    { name = "httpx" },
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-exporter-otlp" },
+    { name = "opentelemetry-sdk" },
+    { name = "packaging" },
+    { name = "pydantic" },
+    { name = "requests" },
+    { name = "wrapt" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/21/13/5faae9cc988c135a63eddc247d4cc5808b956f6cde1cd95469e7c67802bf/langfuse-3.0.0.tar.gz", hash = "sha256:c47449ae93a3007efee6b861484f529efb187ddbfb5093e0cb94b84636e0a605", size = 147241 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5d/3f/4ebe4e2977b48ba8876dc8a9deecd721655a17dde5d898df19212e9c5609/langfuse-3.0.0-py3-none-any.whl", hash = "sha256:5f493bd15760b15195cc71ec7aaa4f93008058a1f5dfe4b32f72f31cbdc6f605", size = 291814 },
+]
+
+[[package]]
 name = "langgraph"
 version = "0.4.7"
 source = { registry = "https://pypi.org/simple" }
@@ -1919,6 +1943,19 @@ wheels = [
 ]
 
 [[package]]
+name = "opentelemetry-exporter-otlp"
+version = "1.33.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "opentelemetry-exporter-otlp-proto-grpc" },
+    { name = "opentelemetry-exporter-otlp-proto-http" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b1/3f/c8ad4f1c3aaadcea2b0f1b4d7970e7b7898c145699769a789f3435143f69/opentelemetry_exporter_otlp-1.33.1.tar.gz", hash = "sha256:4d050311ea9486e3994575aa237e32932aad58330a31fba24fdba5c0d531cf04", size = 6189 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4d/32/b9add70dd4e845654fc9fcd1401a705477743880be6c3e62acb1ad0d8662/opentelemetry_exporter_otlp-1.33.1-py3-none-any.whl", hash = "sha256:9bcf1def35b880b55a49e31ebd63910edac14b294fd2ab884953c4deaff5b300", size = 7045 },
+]
+
+[[package]]
 name = "opentelemetry-exporter-otlp-proto-common"
 version = "1.33.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1946,6 +1983,24 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/d8/5f/75ef5a2a917bd0e6e7b83d3fb04c99236ee958f6352ba3019ea9109ae1a6/opentelemetry_exporter_otlp_proto_grpc-1.33.1.tar.gz", hash = "sha256:345696af8dc19785fac268c8063f3dc3d5e274c774b308c634f39d9c21955728", size = 22556 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ba/ec/6047e230bb6d092c304511315b13893b1c9d9260044dd1228c9d48b6ae0e/opentelemetry_exporter_otlp_proto_grpc-1.33.1-py3-none-any.whl", hash = "sha256:7e8da32c7552b756e75b4f9e9c768a61eb47dee60b6550b37af541858d669ce1", size = 18591 },
+]
+
+[[package]]
+name = "opentelemetry-exporter-otlp-proto-http"
+version = "1.33.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "deprecated" },
+    { name = "googleapis-common-protos" },
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-exporter-otlp-proto-common" },
+    { name = "opentelemetry-proto" },
+    { name = "opentelemetry-sdk" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/60/48/e4314ac0ed2ad043c07693d08c9c4bf5633857f5b72f2fefc64fd2b114f6/opentelemetry_exporter_otlp_proto_http-1.33.1.tar.gz", hash = "sha256:46622d964a441acb46f463ebdc26929d9dec9efb2e54ef06acdc7305e8593c38", size = 15353 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/63/ba/5a4ad007588016fe37f8d36bf08f325fe684494cc1e88ca8fa064a4c8f57/opentelemetry_exporter_otlp_proto_http-1.33.1-py3-none-any.whl", hash = "sha256:ebd6c523b89a2ecba0549adb92537cc2bf647b4ee61afbbd5a4c6535aa3da7cf", size = 17733 },
 ]
 
 [[package]]
@@ -3177,6 +3232,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/8a/78/16493d9c386d8e60e
 wheels = [
     { url = "https://files.pythonhosted.org/packages/6b/11/cc635220681e93a0183390e26485430ca2c7b5f9d33b15c74c2861cb8091/urllib3-2.4.0-py3-none-any.whl", hash = "sha256:4e16665048960a0900c702d4a66415956a584919c03361cac9f1df5c5dd7e813", size = 128680 },
 ]
+
+[[package]]
+name = "uuid"
+version = "1.30"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ce/63/f42f5aa951ebf2c8dac81f77a8edcc1c218640a2a35a03b9ff2d4aa64c3d/uuid-1.30.tar.gz", hash = "sha256:1f87cc004ac5120466f36c5beae48b4c48cc411968eed0eaecd3da82aa96193f", size = 5811 }
 
 [[package]]
 name = "uvicorn"
