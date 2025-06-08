@@ -320,38 +320,82 @@ By following these best practices and coding standards, developers can build rob
 # get-somm Project Structure and Workflow (Cursor Rule)
 
 ## Main Source Code
-- Main Python code is in [`src/agent/`](mdc:src/agent).
-- Key modules: [`graph.py`](mdc:src/agent/graph.py), [`configuration.py`](mdc:src/agent/configuration.py), [`state.py`](mdc:src/agent/state.py), [`logger.py`](mdc:src/agent/logger.py).
+- Main Python code is in [`backend/agent/`](mdc:backend/agent).
+- Key modules: [`graph.py`](mdc:backend/agent/graph.py), [`configuration.py`](mdc:backend/agent/configuration.py), [`state.py`](mdc:backend/agent/state.py), [`logger.py`](mdc:backend/agent/logger.py).
 
 ## Tests
-- Unit tests are in [`tests/unit_tests/`](mdc:tests/unit_tests).
-- Run tests with `pytest` (see [`pyproject.toml`](mdc:pyproject.toml)).
-- Coverage and HTML reports output to [`tests/reports/`](mdc:tests/reports).
+- Unit tests are in [`backend/tests/unit_tests/`](mdc:backend/tests/unit_tests).
+- Run tests with `pytest` (see [`backend/pyproject.toml`](mdc:backend/pyproject.toml)).
+- Coverage and HTML reports output to [`backend/tests/reports/`](mdc:backend/tests/reports).
 
 ## Python & Dependencies
-- Requires Python 3.11+ (see [`pyproject.toml`](mdc:pyproject.toml)).
+- Requires Python 3.11+ (see [`backend/pyproject.toml`](mdc:backend/pyproject.toml)).
 - Use `uv` for dependency management: `uv sync` to install.
-- All dependencies listed in [`pyproject.toml`](mdc:pyproject.toml).
+- All dependencies listed in [`backend/pyproject.toml`](mdc:backend/pyproject.toml).
 
 ## Linting & Formatting
-- Lint with `ruff` (see [`pyproject.toml`](mdc:pyproject.toml)).
+- Lint with `ruff` (see [`backend/pyproject.toml`](mdc:backend/pyproject.toml)).
 - Linting rules: PEP8, pyflakes, isort, pydocstyle (with some ignores for tests).
 
 ## Environment Variables
 - Store secrets/config in [`.env`](mdc:.env) (required for Anthropic API key and Docker Compose).
 
 ## Running the Project
-- For development: `uv run langgraph dev`
+- For backend development: `uv run langgraph dev` (from backend/)
 - For client: `uv run client/index.py`
 - For Docker: `uv run langgraph build` then `docker-compose up`
 
 ## Docker Compose
-- Services: Redis, Postgres, and the main API (image built from project).
+- Services: Redis, Postgres, and the main API (image built from backend project).
 - Ports: API on 8123, Postgres on 5433.
-- See [`docker-compose.yml`](mdc:docker-compose.yml).
+- See [`backend/docker-compose.yml`](mdc:backend/docker-compose.yml).
 
 ## Special Files
-- [`langgraph.json`](mdc:langgraph.json) configures LangGraph graphs and environment.
+- [`backend/langgraph.json`](mdc:backend/langgraph.json) configures LangGraph graphs and environment.
 
 ## Ignore
 - Ignore `.venv/`, `.pytest_cache/`, `__pycache__/`, and other standard Python cache/build folders.
+
+---
+# get-somm Frontend (Next.js) Structure and Workflow (Cursor Rule)
+
+## Main Source Code
+- All frontend code is in [`frontend/`](mdc:frontend).
+- Main entry: [`frontend/app/`](mdc:frontend/app) (Next.js app directory).
+- Shared components: [`frontend/components/`](mdc:frontend/components).
+- Utilities and libraries: [`frontend/lib/`](mdc:frontend/lib).
+
+## Environment Variables
+- Store frontend secrets/config in [`frontend/.env.local`](mdc:frontend/.env.local).
+- Example variables:
+  - `LANGCHAIN_API_KEY`
+  - `LANGGRAPH_API_URL`
+  - `NEXT_PUBLIC_LANGGRAPH_ASSISTANT_ID`
+- Document all required variables in [`frontend/.env.local.example`](mdc:frontend/.env.local.example) if possible.
+
+## Dependency Management
+- Use `npm`, `yarn`, or `pnpm` for package management.
+- All dependencies listed in [`frontend/package.json`](mdc:frontend/package.json).
+
+## Linting & Formatting
+- Lint with ESLint: `npm run lint` (see [`frontend/eslint.config.mjs`](mdc:frontend/eslint.config.mjs)).
+- Format with Prettier if configured.
+- Follow Next.js and React best practices for code style and structure.
+
+## Testing
+- Add unit and integration tests in [`frontend/__tests__/`](mdc:frontend/__tests__) or colocated with components.
+- Use Jest, React Testing Library, or Playwright for testing.
+- Run tests with `npm test` or equivalent.
+
+## Running the Frontend
+- Development: `cd frontend && npm run dev` (runs on [http://localhost:3000](mdc:http:/localhost:3000) by default).
+- Build for production: `npm run build`.
+- Start production server: `npm start`.
+
+## Deployment
+- Build static assets with `npm run build`.
+- Deploy to Vercel, Netlify, or any platform supporting Next.js.
+- For Docker, add a `Dockerfile` in `frontend/` and update `docker-compose.yml` if needed.
+
+## Ignore
+- Ignore `node_modules/`, `.next/`, `.env.local`, and other standard frontend cache/build folders.
