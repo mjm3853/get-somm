@@ -3,11 +3,10 @@ AI Somm
 
 ## Project Structure
 
-- `backend/` — LangGraph agent (backend)
-- `ui/` — Next.js UI frontend
-- `tests/` — Unit and integration tests
+- `backend/` — LangGraph agent (backend), all backend code, configuration, and tests are self-contained here
+- `frontend/` — Next.js UI frontend
 - `.env` — Backend environment variables (Anthropic API key, etc.)
-- `ui/.env.local` — Frontend environment variables (see below)
+- `frontend/.env.local` — Frontend environment variables (see below)
 
 ## Prerequisites
 
@@ -26,14 +25,14 @@ AI Somm
 2. **Install UI dependencies:**
 
    ```bash
-   cd ui
+   cd frontend
    npm install
    # or yarn install, pnpm install, etc.
    ```
 
 3. **Environment variables:**
    - Backend: Create a `.env` file in the root with your Anthropic API key and other secrets.
-   - Frontend: Create a `ui/.env.local` file with:
+   - Frontend: Create a `frontend/.env.local` file with:
      ```env
      LANGCHAIN_API_KEY=your_langchain_api_key
      LANGGRAPH_API_URL=http://localhost:8123
@@ -53,7 +52,7 @@ uv run langgraph dev
 **Terminal 2: Start the UI**
 
 ```bash
-cd ui
+cd frontend
 npm run dev
 ```
 

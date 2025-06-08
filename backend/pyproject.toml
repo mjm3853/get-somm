@@ -37,9 +37,8 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 packages = ["langgraph.templates.agent", "agent"]
 [tool.setuptools.package-dir]
-"langgraph.templates.agent" = "backend/agent"
-"agent" = "backend/agent"
-
+"langgraph.templates.agent" = "agent"
+"agent" = "agent"
 
 [tool.setuptools.package-data]
 "*" = ["py.typed"]
@@ -71,4 +70,4 @@ convention = "google"
 [tool.pytest.ini_options]
 asyncio_mode = "strict"
 asyncio_default_fixture_loop_scope = "function"
-addopts = "--cov=src --cov-report=html:tests/reports/coverage --html=tests/reports/results/report.html --self-contained-html"
+addopts = "--cov=agent --cov-report=html:tests/reports/coverage --html=tests/reports/results/report.html --self-contained-html"
