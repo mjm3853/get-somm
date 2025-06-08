@@ -1,84 +1,35 @@
 # get-somm
-AI Somm
 
-## Project Structure
-
-- `backend/` — LangGraph agent (backend), all backend code, configuration, and tests are self-contained here
-- `frontend/` — Next.js UI frontend
-- `.env` — Backend environment variables (Anthropic API key, etc.)
-- `frontend/.env.local` — Frontend environment variables (see below)
+AI Somm — Monorepo for an AI-powered sommelier assistant.
 
 ## Prerequisites
 
 - Python 3.11+
 - [uv](https://docs.astral.sh/uv/) for Python dependency management
 - Node.js (for UI)
+- **Moonrepo** (monorepo task/dependency manager)
+  - Install globally: `npm install -g @moonrepo/cli`
+  - Or use npx: `npx moon --version` (downloads and runs Moonrepo as needed)
+  - See: https://moonrepo.dev/docs/install
 
-## Setup
+## Project Structure
 
-1. **Install Python dependencies:**
+- `backend/` — LangGraph agent (backend). See [`backend/README.md`](backend/README.md) for backend setup, configuration, and commands.
+- `frontend/` — Next.js UI frontend. See [`frontend/README.md`](frontend/README.md) for frontend setup and commands.
+- **All monorepo tasks and scripts are managed with Moonrepo.**
 
-   ```bash
-   uv sync
-   ```
+## Monorepo Tasks
 
-2. **Install UI dependencies:**
+## Setup Backend and Frontend
 
-   ```bash
-   cd frontend
-   npm install
-   # or yarn install, pnpm install, etc.
-   ```
+`moon run :install`
 
-3. **Environment variables:**
-   - Backend: Create a `.env` file in the root with your Anthropic API key and other secrets.
-   - Frontend: Create a `frontend/.env.local` file with:
-     ```env
-     LANGCHAIN_API_KEY=your_langchain_api_key
-     LANGGRAPH_API_URL=http://localhost:8123
-     NEXT_PUBLIC_LANGGRAPH_ASSISTANT_ID=your_assistant_id_or_graph_id
-     ```
+### Run Backend and Frontend
 
-## Running the Project (Development)
+`moon run :dev`
 
-Open **two terminals**:
+### More info
 
-**Terminal 1: Start the LangGraph backend**
-
-```bash
-uv run langgraph dev
-```
-
-**Terminal 2: Start the UI**
-
-```bash
-cd frontend
-npm run dev
-```
-
-- The backend will be available at [http://localhost:8123/docs](http://localhost:8123/docs)
-- The UI will be available at [http://localhost:3000](http://localhost:3000)
-
-## Deploy with Docker Compose
-
-The backend and its dependencies (Redis, Postgres) can be run with Docker Compose:
-
-```bash
-uv run langgraph build
-# Set IMAGE_NAME in .env
-# Then:
-docker-compose up
-```
-
-Navigate to [http://localhost:8123/docs](http://localhost:8123/docs) for backend API docs.
-
-## Deep Eval Tests
-
-```bash
-uv run deepeval test run tests/deep_eval/test_cases.py
-```
-
-## TODO
-
-- Try <https://github.com/Yonom/assistant-ui-langgraph-fastapi>
-- Add Docker Compose support for the UI for a single-command workflow
+- Use [Moonrepo](https://moonrepo.dev/docs) to manage tasks across projects:
+  - Run a task in a specific project: `moon run <project>:<task>`
+  - Run a task across all projects: `moon run :<task>`

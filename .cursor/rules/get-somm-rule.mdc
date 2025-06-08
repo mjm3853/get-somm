@@ -399,3 +399,13 @@ By following these best practices and coding standards, developers can build rob
 
 ## Ignore
 - Ignore `node_modules/`, `.next/`, `.env.local`, and other standard frontend cache/build folders.
+
+---
+# Moonrepo Monorepo Management (Cursor Rule)
+
+- Use [Moonrepo](mdc:https:/moonrepo.dev/docs/install) to manage tasks, dependencies, and workflows across both backend and frontend.
+- All monorepo-wide scripts and tasks should be defined in the root `moon.yml`.
+- Each project (`backend`, `frontend`) can have its own tasks and dependencies.
+- Use `moon run <project>:<task>` to run tasks in a specific project.
+- Use `moon run :<task>` to run a task across all projects.
+- See the [Moonrepo docs](mdc:https:/moonrepo.dev/docs) for advanced configuration.
