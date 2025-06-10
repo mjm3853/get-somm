@@ -8,7 +8,8 @@ from typing import Optional
 
 from langchain_core.runnables import RunnableConfig
 
-from agent.prompts import HEAD_SOMM_PROMPT
+from agent.prompts.beverage_director import BEVERAGE_DIRECTOR_PROMPT
+from agent.prompts.head_somm import HEAD_SOMM_PROMPT
 
 
 @dataclass(kw_only=True)
@@ -23,6 +24,13 @@ class Configuration:
     model_provider: str = "anthropic"
     head_somm_prompt: str = field(
         default=HEAD_SOMM_PROMPT,
+        metadata={
+            "description": "The system prompt to use for the agent's interactions. "
+            "This prompt sets the context and behavior for the agent."
+        },
+    )
+    beverage_director_prompt: str = field(
+        default=BEVERAGE_DIRECTOR_PROMPT,
         metadata={
             "description": "The system prompt to use for the agent's interactions. "
             "This prompt sets the context and behavior for the agent."

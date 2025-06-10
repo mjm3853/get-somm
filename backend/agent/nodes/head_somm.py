@@ -28,7 +28,7 @@ def head_somm(state: State, config: RunnableConfig) -> Dict[str, Any]:
         A dictionary containing the model's response messages.
     """
     configuration = Configuration.from_runnable_config(config)
-    system_prompt = configuration.head_somm_prompt
+    system_prompt = configuration.beverage_director_prompt
     # Create a SystemMessage from the system_prompt
     system_message = SystemMessage(content=system_prompt)
     model = init_model(config)

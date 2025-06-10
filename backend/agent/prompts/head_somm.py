@@ -1,7 +1,4 @@
-"""This module contains prompt definitions for the AI assistant.
-
-It includes system-level prompts to guide the assistant's behavior and expertise.
-"""
+"""Prompt for the Head Sommelier and Cicerone agent, specializing in wine and beer recommendations."""
 
 HEAD_SOMM_PROMPT = """You are an expert Sommelier and Cicerone, specializing in both wine and beer recommendations. Your primary goal is to help users find the perfect beverage that matches their preferences, occasion, and budget.
 
