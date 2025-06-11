@@ -15,14 +15,24 @@ const createClient = () => {
 
 export const createThread = async () => {
   const client = createClient();
-  return client.threads.create();
+  try {
+    return await client.threads.create();
+  } catch (error) {
+    console.error("Error creating thread:", error);
+    throw error;
+  }
 };
 
 export const getThreadState = async (
   threadId: string
 ): Promise<ThreadState<{ messages: LangChainMessage[] }>> => {
   const client = createClient();
-  return client.threads.getState(threadId);
+  try {
+    return await client.threads.getState(threadId);
+  } catch (error) {
+    console.error(`Error getting state for thread ${threadId}:`, error);
+    throw error;
+  }
 };
 
 export const sendMessage = async (params: {
@@ -31,17 +41,26 @@ export const sendMessage = async (params: {
   command?: LangGraphCommand | undefined;
 }) => {
   const client = createClient();
-  return client.runs.stream(
-    params.threadId,
-    process.env["NEXT_PUBLIC_LANGGRAPH_ASSISTANT_ID"]!,
-    {
-      input: params.messages?.length
-        ? {
-            messages: params.messages,
-          }
-        : null,
-      command: params.command,
-      streamMode: ["messages", "updates"],
-    }
-  );
+  const assistantId = process.env["NEXT_PUBLIC_LANGGRAPH_ASSISTANT_ID"];
+  if (!assistantId) {
+    throw new Error("NEXT_PUBLIC_LANGGRAPH_ASSISTANT_ID is not set.");
+  }
+  try {
+    return await client.runs.stream(
+      params.threadId,
+      assistantId,
+      {
+        input: params.messages?.length
+          ? {
+              messages: params.messages,
+            }
+          : null,
+        command: params.command,
+        streamMode: ["messages", "updates"],
+      }
+    );
+  } catch (error) {
+    console.error(`Error sending message to thread ${params.threadId}:`, error);
+    throw error;
+  }
 };

@@ -1,3 +1,4 @@
+"use client";
 import {
   ActionBarPrimitive,
   BranchPickerPrimitive,
@@ -15,12 +16,18 @@ import {
   PencilIcon,
   RefreshCwIcon,
   SendHorizontalIcon,
+  CameraIcon,
+  CircleStopIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, dataURLtoFile } from "@/lib/utils";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import { CameraCapture } from "@/components/ui/CameraCapture";
+import { ComposerAttachments } from "@/components/assistant-ui/attachment";
+import { ComposerAddAttachment } from "@/components/assistant-ui/attachment";
 
 export const Thread: FC = () => {
   return (
@@ -118,13 +125,62 @@ const Composer: FC = () => {
         className="placeholder:text-muted-foreground max-h-40 flex-grow resize-none border-none bg-transparent px-2 py-4 text-sm outline-none focus:ring-0 disabled:cursor-not-allowed"
       />
       <ComposerAction />
+      <ComposerAttachments />
     </ComposerPrimitive.Root>
   );
 };
 
 const ComposerAction: FC = () => {
+  const [cameraOpen, setCameraOpen] = React.useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const handleCapture = (imageDataUrl: string) => {
+    const file = dataURLtoFile(imageDataUrl, "photo.png");
+
+    const input = document.querySelector(
+      'input[type="file"][data-slot="camera-input"]',
+    ) as HTMLInputElement | null;
+
+    if (input) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      input.files = dataTransfer.files;
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+    } else {
+      console.error(
+        "Could not find the file input for attachments. Ensure ComposerPrimitive.AddAttachment is rendered with data-slot='camera-input' on the input.",
+      );
+    }
+    setCameraOpen(false);
+  };
+
   return (
     <>
+      <ComposerPrimitive.AddAttachment asChild>
+        <input
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          data-slot="camera-input"
+          tabIndex={-1}
+          aria-hidden="true"
+        />
+      </ComposerPrimitive.AddAttachment>
+      <TooltipIconButton
+        tooltip="Open camera"
+        variant="ghost"
+        className="my-2.5 size-8 p-2 transition-opacity ease-in"
+        onClick={() => setCameraOpen(true)}
+      >
+        <CameraIcon />
+      </TooltipIconButton>
+      <CameraCapture
+        open={cameraOpen}
+        onOpenChange={setCameraOpen}
+        onCapture={handleCapture}
+      />
       <ThreadPrimitive.If running={false}>
         <ComposerPrimitive.Send asChild>
           <TooltipIconButton
@@ -147,6 +203,11 @@ const ComposerAction: FC = () => {
           </TooltipIconButton>
         </ComposerPrimitive.Cancel>
       </ThreadPrimitive.If>
+      {showToast && (
+        <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2 rounded bg-blue-600 px-4 py-2 text-white shadow-lg animate-fade-in">
+          Photo attached!
+        </div>
+      )}
     </>
   );
 };
@@ -266,19 +327,5 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
         </TooltipIconButton>
       </BranchPickerPrimitive.Next>
     </BranchPickerPrimitive.Root>
-  );
-};
-
-const CircleStopIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      width="16"
-      height="16"
-    >
-      <rect width="10" height="10" x="3" y="3" rx="2" />
-    </svg>
   );
 };
