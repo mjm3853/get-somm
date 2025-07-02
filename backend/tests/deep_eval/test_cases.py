@@ -2,7 +2,10 @@ import json
 from typing import Any, List, Optional
 
 from deepeval import evaluate
-from deepeval.metrics import TaskCompletionMetric, ToolCorrectnessMetric
+from deepeval.metrics import (  # type: ignore[attr-defined]
+    TaskCompletionMetric,
+    ToolCorrectnessMetric,
+)
 from deepeval.test_case import LLMTestCase, ToolCall
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, ToolMessage
@@ -34,9 +37,16 @@ def extract_tool_calls(messages: List[Any]) -> List[ToolCall]:
                 ),
                 None,
             )
-            output_content = json.loads(tool_msg.content) if tool_msg else None
-            print(
-                "Tool output:",
+            if tool_msg and isinstance(tool_msg.content, str):
+                try:
+                    output_content = json.loads(tool_msg.content)
+                except json.JSONDecodeError:
+                    output_content = tool_msg.content
+            else:
+                output_content = tool_msg.content if tool_msg else None
+            import logging
+            logging.debug(
+                "Tool output: %s",
                 json.dumps(output_content, indent=2) if output_content else None,
             )
             tool_calls.append(
@@ -70,7 +80,7 @@ def extract_ai_message_content(messages: List[Any]) -> str:
 def create_test_case(
     user_input: str,
     expected_output: str,
-    expected_tools: Optional[list] = None,
+    expected_tools: Optional[List[str]] = None,
     debug: bool = False,
 ) -> LLMTestCase:
     """
@@ -79,9 +89,10 @@ def create_test_case(
     """
     output = graph.invoke({"messages": [{"role": "user", "content": user_input}]})
     messages = output["messages"]
-    print("All messages:", messages)
+    import logging
+    logging.debug("All messages: %s", messages)
     tools_called = extract_tool_calls(messages)
-    print("Extracted tools_called:", tools_called)
+    logging.debug("Extracted tools_called: %s", tools_called)
     ai_message_content = extract_ai_message_content(messages)
     # If expected_tools is provided, you could add assertions or checks here if desired
     return LLMTestCase(
@@ -101,7 +112,7 @@ tool_metric = ToolCorrectnessMetric()
 test_case_1 = create_test_case(
     user_input="What's a good wine to start with?",
     expected_output="To help you get started with wine, I'd like to recommend a few approachable options. Before I make specific suggestions, it would help me to know...",
-    expected_tools=[ToolCall(name="wine_reader")],
+    expected_tools=[ToolCall(name="wine_reader", input_parameters={})],
     debug=True,
 )
 

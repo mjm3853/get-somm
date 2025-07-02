@@ -1,4 +1,4 @@
-from deepeval.synthesizer import Synthesizer
+from deepeval.synthesizer import Synthesizer  # type: ignore[attr-defined]
 from deepeval.synthesizer.config import StylingConfig
 from dotenv import load_dotenv
 

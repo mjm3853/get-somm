@@ -1,3 +1,5 @@
+from typing import Any
+
 from langchain_core.messages import SystemMessage
 from langchain_core.runnables import RunnableConfig
 
@@ -5,7 +7,7 @@ from agent.nodes.head_somm import head_somm
 from agent.state import State
 
 
-def test_head_somm(mocker, basic_config, mock_chat_model_with_tools):
+def test_head_somm(mocker: Any, basic_config: RunnableConfig, mock_chat_model_with_tools: Any) -> None:
     """Test head_somm function with basic configuration."""
     # Setup mock model
     mock_llm = mock_chat_model_with_tools
@@ -27,7 +29,7 @@ def test_head_somm(mocker, basic_config, mock_chat_model_with_tools):
     # Verify model was called with correct system message
     assert mock_llm.last_messages is not None
     assert isinstance(mock_llm.last_messages[0], SystemMessage)
-    assert mock_llm.last_messages[0].content == basic_config["configurable"]["head_somm_prompt"]
+    assert mock_llm.last_messages[0].content == basic_config["configurable"]["beverage_director_prompt"]
     
     # Verify tools were bound
     assert hasattr(mock_llm, 'bound_tools')

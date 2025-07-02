@@ -32,19 +32,19 @@ jobs:
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv venv
-        uv pip install -r pyproject.toml
+        cd backend
+        uv sync
     - name: Lint with ruff
       run: |
-        uv pip install ruff
+        cd backend
         uv run ruff check .
     - name: Lint with mypy
       run: |
-        uv pip install mypy
-        uv run mypy --strict backend/
+        cd backend
+        uv run mypy --strict .
     - name: Run tests with pytest
       run: |
-        uv pip install pytest pytest-cov pytest-html
+        cd backend
         uv run pytest tests/unit_tests
     - name: Upload test reports
       if: always()
@@ -52,6 +52,6 @@ jobs:
       with:
         name: test-reports
         path: |
-          tests/reports/coverage/
-          tests/reports/results/
+          backend/tests/reports/coverage/
+          backend/tests/reports/results/
         retention-days: 30
