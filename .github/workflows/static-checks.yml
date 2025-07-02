@@ -50,7 +50,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-reports
+        name: test-reports-python-${{ matrix.python-version }}
         path: |
           backend/tests/reports/coverage/
           backend/tests/reports/results/
