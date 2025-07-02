@@ -18,9 +18,11 @@ import {
   SendHorizontalIcon,
   CameraIcon,
   CircleStopIcon,
+  Loader2Icon,
 } from "lucide-react";
 import { cn, dataURLtoFile } from "@/lib/utils";
 import React, { useState } from "react";
+import { useComposerRuntime } from "@assistant-ui/react";
 
 import { Button } from "@/components/ui/button";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
@@ -133,41 +135,22 @@ const Composer: FC = () => {
 const ComposerAction: FC = () => {
   const [cameraOpen, setCameraOpen] = React.useState(false);
   const [showToast, setShowToast] = useState(false);
+  const composerRuntime = useComposerRuntime();
 
   const handleCapture = (imageDataUrl: string) => {
     const file = dataURLtoFile(imageDataUrl, "photo.png");
-
-    const input = document.querySelector(
-      'input[type="file"][data-slot="camera-input"]',
-    ) as HTMLInputElement | null;
-
-    if (input) {
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      input.files = dataTransfer.files;
-      input.dispatchEvent(new Event("change", { bubbles: true }));
+    try {
+      composerRuntime.addAttachment(file);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
-    } else {
-      console.error(
-        "Could not find the file input for attachments. Ensure ComposerPrimitive.AddAttachment is rendered with data-slot='camera-input' on the input.",
-      );
+    } catch (err) {
+      console.error("Error adding attachment:", err);
     }
     setCameraOpen(false);
   };
 
   return (
     <>
-      <ComposerPrimitive.AddAttachment asChild>
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          data-slot="camera-input"
-          tabIndex={-1}
-          aria-hidden="true"
-        />
-      </ComposerPrimitive.AddAttachment>
       <TooltipIconButton
         tooltip="Open camera"
         variant="ghost"
@@ -208,6 +191,14 @@ const ComposerAction: FC = () => {
           Photo attached!
         </div>
       )}
+      {/* Uploading/Processing overlay */}
+      <ThreadPrimitive.If running>
+        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 flex items-center gap-2 rounded bg-background/90 px-4 py-2 shadow-md border">
+          <Loader2Icon className="size-4 animate-spin" />
+          <span className="text-sm">Uploading&nbsp;attachments…</span>
+        </div>
+      </ThreadPrimitive.If>
+      {/* End overlay */}
     </>
   );
 };
