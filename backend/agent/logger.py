@@ -1,4 +1,5 @@
 """This module provides a centralized logging configuration for the application."""
+
 import logging
 
 # Expose the logger and setup_logging function for external use
@@ -17,6 +18,7 @@ default_handler.setFormatter(
     )
 )
 logger.addHandler(default_handler)
+
 
 def setup_logging(level: int = logging.INFO) -> None:
     """Reconfigure the logging level for the logger.

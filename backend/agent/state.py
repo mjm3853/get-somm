@@ -20,6 +20,7 @@ class State(TypedDict):
         A list of messages where the `add_messages` function defines how
         this key should be updated (appends messages to the list).
     """
+
     # Messages have the type "list". The `add_messages` function
     # in the annotation defines how this state key should be updated
     # (in this case, it appends messages to the list, rather than overwriting them)

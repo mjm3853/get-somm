@@ -32,8 +32,10 @@ def head_somm(state: State, config: RunnableConfig) -> Dict[str, Any]:
     # Create a SystemMessage from the system_prompt
     system_message = SystemMessage(content=system_prompt)
     model = init_model(config)
-    model_with_tools = model.bind_tools(
-        tools=[wine_reader, beer_reader]
-    )
+    model_with_tools = model.bind_tools(tools=[wine_reader, beer_reader])
 
-    return {"messages": [model_with_tools.invoke([system_message] + list(state["messages"]))]}
+    return {
+        "messages": [
+            model_with_tools.invoke([system_message] + list(state["messages"]))
+        ]
+    }

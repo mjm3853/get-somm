@@ -2,3 +2,8 @@
 
 # Moon monorepo
 .moon/cache
+
+# deep_eval
+.deepeval
+.deepeval-cache.json
+.deepeval_telemetry.txt

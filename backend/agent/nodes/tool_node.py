@@ -34,7 +34,7 @@ def tool_node(state: State) -> Dict[str, List[ToolMessage]]:
     """
     if not isinstance(state["messages"][-1], AIMessage):
         return {"messages": []}
-        
+
     outputs = []
     for tool_call in state["messages"][-1].tool_calls:
         tool_result = tools_by_name[tool_call["name"]].invoke(tool_call["args"])

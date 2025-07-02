@@ -13,10 +13,10 @@ from langchain_core.tools import tool
 @tool
 def beer_reader() -> str:
     """Read beer data from a CSV file and return it as a JSON string.
-    
+
     This tool reads beer inventory data from a CSV file located at 'data/beer_list.csv'.
     The data contains a curated selection of beers with their details and pricing.
-    
+
     The CSV contains the following columns:
     - name: The name of the beer
     - abv: Alcohol by volume percentage
@@ -25,12 +25,12 @@ def beer_reader() -> str:
     - description: A description of the beer's characteristics
     - servingSize: The size of the serving (e.g., 16oz, 12oz)
     - price: The price of the beer
-    
+
     Returns:
         str: A JSON string containing the beer data. The JSON is in 'records' orientation,
              meaning each row of the CSV becomes a separate JSON object in an array.
              Each object contains the column names as keys and the corresponding values.
-             
+
     Example:
         >>> beer_data = beer_reader()
         >>> # The returned JSON string can be parsed into a list of dictionaries:

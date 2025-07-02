@@ -14,18 +14,20 @@ from agent.state import State
 
 @pytest.fixture
 def basic_config() -> RunnableConfig:
-    return RunnableConfig(configurable={
-        "model_name": "test-model",
-        "model_provider": "test-provider",
-        "beverage_director_prompt": "You are a test assistant"
-    })
+    return RunnableConfig(
+        configurable={
+            "model_name": "test-model",
+            "model_provider": "test-provider",
+            "beverage_director_prompt": "You are a test assistant",
+        }
+    )
+
 
 @pytest.fixture
 def basic_state() -> State:
-    return State(messages=[
-        HumanMessage(content="Hello"),
-        AIMessage(content="Hi there!")
-    ])
+    return State(
+        messages=[HumanMessage(content="Hello"), AIMessage(content="Hi there!")]
+    )
 
 
 class MockChatModel(BaseChatModel):
@@ -33,9 +35,24 @@ class MockChatModel(BaseChatModel):
     last_messages: ClassVar[Optional[List[BaseMessage]]] = None
 
     @override
-    def invoke(self, input: Union[PromptValue, str, Sequence[Union[BaseMessage, List[str], tuple[str, str], str, Dict[str, Any]]]], config: Optional[RunnableConfig] = None, *, stop: Optional[List[str]] = None, **kwargs: Any) -> AIMessage:
+    def invoke(
+        self,
+        input: Union[
+            PromptValue,
+            str,
+            Sequence[
+                Union[BaseMessage, List[str], tuple[str, str], str, Dict[str, Any]]
+            ],
+        ],
+        config: Optional[RunnableConfig] = None,
+        *,
+        stop: Optional[List[str]] = None,
+        **kwargs: Any,
+    ) -> AIMessage:
         MockChatModel.invoke_count += 1
-        if isinstance(input, list) and all(isinstance(item, BaseMessage) for item in input):
+        if isinstance(input, list) and all(
+            isinstance(item, BaseMessage) for item in input
+        ):
             MockChatModel.last_messages = input
         elif isinstance(input, BaseMessage):
             MockChatModel.last_messages = [input]
@@ -53,15 +70,25 @@ class MockChatModel(BaseChatModel):
     def _llm_type(self) -> str:
         return "mock"
 
+
 class MockChatModelWithTools(MockChatModel):
-    bound_tools: ClassVar[Optional[Sequence[Union[Dict[str, Any], type, Callable[..., Any], BaseTool]]]] = None
+    bound_tools: ClassVar[
+        Optional[Sequence[Union[Dict[str, Any], type, Callable[..., Any], BaseTool]]]
+    ] = None
 
     @override
-    def bind_tools(self, tools: Sequence[Union[Dict[str, Any], type, Callable[..., Any], BaseTool]], *, tool_choice: Optional[str] = None, **kwargs: Any) -> 'MockChatModelWithTools':
+    def bind_tools(
+        self,
+        tools: Sequence[Union[Dict[str, Any], type, Callable[..., Any], BaseTool]],
+        *,
+        tool_choice: Optional[str] = None,
+        **kwargs: Any,
+    ) -> "MockChatModelWithTools":
         # Store the tools for inspection if needed
         MockChatModelWithTools.bound_tools = tools
         # Return self to allow method chaining
         return self
+
 
 @pytest.fixture
 def mock_chat_model() -> MockChatModel:
@@ -69,6 +96,7 @@ def mock_chat_model() -> MockChatModel:
     MockChatModel.invoke_count = 0
     MockChatModel.last_messages = None
     return MockChatModel()
+
 
 @pytest.fixture
 def mock_chat_model_with_tools() -> MockChatModelWithTools:

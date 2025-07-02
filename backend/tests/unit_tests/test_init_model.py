@@ -14,9 +14,24 @@ class MockChatModel(BaseChatModel):
     last_messages: ClassVar[Optional[List[BaseMessage]]] = None
 
     @override
-    def invoke(self, input: Union[PromptValue, str, Sequence[Union[BaseMessage, List[str], tuple[str, str], str, Dict[str, Any]]]], config: Optional[RunnableConfig] = None, *, stop: Optional[List[str]] = None, **kwargs: Any) -> AIMessage:
+    def invoke(
+        self,
+        input: Union[
+            PromptValue,
+            str,
+            Sequence[
+                Union[BaseMessage, List[str], tuple[str, str], str, Dict[str, Any]]
+            ],
+        ],
+        config: Optional[RunnableConfig] = None,
+        *,
+        stop: Optional[List[str]] = None,
+        **kwargs: Any,
+    ) -> AIMessage:
         MockChatModel.invoke_count += 1
-        if isinstance(input, list) and all(isinstance(item, BaseMessage) for item in input):
+        if isinstance(input, list) and all(
+            isinstance(item, BaseMessage) for item in input
+        ):
             MockChatModel.last_messages = input
         elif isinstance(input, BaseMessage):
             MockChatModel.last_messages = [input]
@@ -35,7 +50,9 @@ class MockChatModel(BaseChatModel):
         return "mock"
 
 
-def test_init_model_basic(mocker: Any, basic_config: RunnableConfig, mock_chat_model: MockChatModel) -> None:
+def test_init_model_basic(
+    mocker: Any, basic_config: RunnableConfig, mock_chat_model: MockChatModel
+) -> None:
     """Test basic model initialization and caching."""
     # Reset cache with anthropic provider
     mocker.patch(

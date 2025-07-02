@@ -13,26 +13,26 @@ from langchain_core.tools import tool
 @tool
 def wine_reader() -> str:
     """Read wine data from a CSV file and return it as a JSON string.
-    
+
     This tool reads wine inventory data from a CSV file located at 'data/fratellos_2025.csv'.
     The data contains a curated selection of wines with their pricing and details.
-    
+
     The CSV contains the following columns:
     - Category: The type of wine (Red or White)
     - Wine Name: The name of the wine
     - Region: The origin of the wine (e.g., California, Italy, New Zealand)
     - Glass Price: Price per glass (some entries may be empty)
     - Bottle Price: Price per bottle (some entries may be empty)
-    
+
     The data includes various wine types such as:
     - Red wines: Pinot Noir, Chianti, Merlot, Malbec, Cabernet Sauvignon, etc.
     - White wines: Pinot Grigio, Sauvignon Blanc, Chardonnay, Prosecco, etc.
-    
+
     Returns:
         str: A JSON string containing the wine data. The JSON is in 'records' orientation,
              meaning each row of the CSV becomes a separate JSON object in an array.
              Each object contains the column names as keys and the corresponding values.
-             
+
     Example:
         >>> wine_data = wine_reader()
         >>> # The returned JSON string can be parsed into a list of dictionaries:
