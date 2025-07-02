@@ -191,11 +191,11 @@ const ComposerAction: FC = () => {
           Photo attached!
         </div>
       )}
-      {/* Uploading/Processing overlay */}
+      {/* AI Processing overlay */}
       <ThreadPrimitive.If running>
         <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 flex items-center gap-2 rounded bg-background/90 px-4 py-2 shadow-md border">
           <Loader2Icon className="size-4 animate-spin" />
-          <span className="text-sm">Uploading&nbsp;attachments…</span>
+          <span className="text-sm">Answering...</span>
         </div>
       </ThreadPrimitive.If>
       {/* End overlay */}

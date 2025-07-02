@@ -1,11 +1,3 @@
 projects:
 - backend
 - frontend
-
-tasks:
-  frontend-install:
-    command: "npm install"
-    workingDirectory: "frontend"
-  frontend-dev:
-    command: "npm run dev"
-    workingDirectory: "frontend"
