@@ -5,8 +5,8 @@ This agent returns a predefined response without using an actual LLM.
 
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage
-from langfuse import get_client
-from langfuse.langchain import CallbackHandler
+from langfuse import get_client  # type: ignore[import-untyped]
+from langfuse.langchain import CallbackHandler  # type: ignore[import-untyped]
 from langgraph.graph import StateGraph
 
 from agent.configuration import Configuration

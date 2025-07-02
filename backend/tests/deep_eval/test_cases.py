@@ -6,7 +6,7 @@ from deepeval.metrics import (  # type: ignore[attr-defined]
     TaskCompletionMetric,
     ToolCorrectnessMetric,
 )
-from deepeval.test_case import LLMTestCase, ToolCall
+from deepeval.test_case import LLMTestCase, ToolCall  # type: ignore[attr-defined]
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, ToolMessage
 
@@ -45,6 +45,7 @@ def extract_tool_calls(messages: List[Any]) -> List[ToolCall]:
             else:
                 output_content = tool_msg.content if tool_msg else None
             import logging
+
             logging.debug(
                 "Tool output: %s",
                 json.dumps(output_content, indent=2) if output_content else None,
@@ -80,7 +81,7 @@ def extract_ai_message_content(messages: List[Any]) -> str:
 def create_test_case(
     user_input: str,
     expected_output: str,
-    expected_tools: Optional[List[str]] = None,
+    expected_tools: Optional[List[ToolCall]] = None,
     debug: bool = False,
 ) -> LLMTestCase:
     """
@@ -90,6 +91,7 @@ def create_test_case(
     output = graph.invoke({"messages": [{"role": "user", "content": user_input}]})
     messages = output["messages"]
     import logging
+
     logging.debug("All messages: %s", messages)
     tools_called = extract_tool_calls(messages)
     logging.debug("Extracted tools_called: %s", tools_called)
