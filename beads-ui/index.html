@@ -82,6 +82,26 @@
             background: #2980b9;
         }
 
+        .repo-link {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .repo-link:hover {
+            color: #3498db;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .filters {
             background: white;
             padding: 20px;
@@ -488,8 +508,18 @@
                 gap: 10px;
             }
 
-            .nav-button {
+            .header-nav {
                 align-self: center;
+                justify-content: center;
+            }
+
+            .nav-button {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            .repo-link {
+                font-size: 11px;
             }
         }
     </style>
@@ -506,7 +536,13 @@
                     <div class="stat">Blocked: <span id="blockedIssues">0</span></div>
                 </div>
             </div>
-            <button id="jumpToGraphBtn" class="nav-button">📊 View Graph</button>
+            <div class="header-nav">
+                <a href="https://github.com/steveyegge/beads" target="_blank" class="repo-link">
+                    <span>⚡</span>
+                    <span>Beads Repo</span>
+                </a>
+                <button id="jumpToGraphBtn" class="nav-button">📊 View Graph</button>
+            </div>
         </div>
 
         <div class="filters">
@@ -553,7 +589,7 @@
             <div class="graph-header">
                 <h3>Dependency Graph</h3>
                 <div class="graph-controls">
-                    <button id="resetGraphBtn">Reset View</button>
+                    <button id="resetGraphBtn">Fit to View</button>
                     <button id="toggleGraphBtn">Hide Graph</button>
                 </div>
             </div>
@@ -1088,6 +1124,11 @@
                         .attr('transform', d => `translate(${d.x},${d.y})`);
                 });
 
+                // Auto-fit the graph when simulation ends
+                simulation.on('end', () => {
+                    this.fitGraphToView(svg, g, width, height, zoom);
+                });
+
                 // Drag functions
                 function dragstarted(event, d) {
                     if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -1107,15 +1148,60 @@
                 }
 
                 // Store references for controls
-                this.graph = { simulation, svg, zoom, tooltip };
+                this.graph = { simulation, svg, zoom, tooltip, g, width, height };
+            }
+
+            fitGraphToView(svg, g, width, height, zoom) {
+                try {
+                    // Get the bounds of all nodes
+                    const bounds = g.node().getBBox();
+
+                    if (bounds.width === 0 || bounds.height === 0) {
+                        return; // No nodes to fit
+                    }
+
+                    // Add padding around the graph
+                    const padding = 40;
+                    const fullWidth = bounds.width;
+                    const fullHeight = bounds.height;
+                    const midX = bounds.x + fullWidth / 2;
+                    const midY = bounds.y + fullHeight / 2;
+
+                    // Calculate scale to fit with padding
+                    const scale = Math.min(
+                        (width - padding * 2) / fullWidth,
+                        (height - padding * 2) / fullHeight
+                    );
+
+                    // Clamp scale to reasonable bounds
+                    const clampedScale = Math.max(0.1, Math.min(2, scale));
+
+                    // Calculate translation to center the graph
+                    const translateX = width / 2 - clampedScale * midX;
+                    const translateY = height / 2 - clampedScale * midY;
+
+                    // Apply the transform with a smooth transition
+                    svg.transition()
+                        .duration(1000)
+                        .call(zoom.transform, d3.zoomIdentity
+                            .translate(translateX, translateY)
+                            .scale(clampedScale));
+
+                } catch (error) {
+                    console.warn('Could not auto-fit graph:', error);
+                }
             }
 
             resetGraph() {
                 if (this.graph && this.graph.svg) {
-                    this.graph.svg
-                        .transition()
-                        .duration(750)
-                        .call(this.graph.zoom.transform, d3.zoomIdentity);
+                    // Reset to fit view instead of just zoom identity
+                    this.fitGraphToView(
+                        this.graph.svg,
+                        this.graph.g,
+                        this.graph.width,
+                        this.graph.height,
+                        this.graph.zoom
+                    );
                 }
             }
 
