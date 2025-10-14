@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+IMPORTANT - We track work in Beads instead of Markdown. Run `bd quickstart` to see how.
+
 ## Project Overview
 
 Get-somm is a full-stack AI sommelier application using a monorepo structure. It combines a Python LangGraph backend with a Next.js frontend to provide intelligent wine and beverage recommendations.
