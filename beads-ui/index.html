@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beads Issue Tracker UI</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -26,28 +27,59 @@
 
         .header {
             background: white;
-            padding: 20px;
+            padding: 15px 20px;
             border-radius: 8px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .header h1 {
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: 24px;
         }
 
         .stats {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
         .stat {
             background: #ecf0f1;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
             font-weight: 600;
+            font-size: 14px;
+        }
+
+        .nav-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-button:hover {
+            background: #2980b9;
         }
 
         .filters {
@@ -264,7 +296,141 @@
             border-radius: 8px;
             margin-top: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
+        }
+
+        .graph-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .graph-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .graph-controls button {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        #dependencyGraph {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .node {
+            cursor: pointer;
+        }
+
+        .node circle {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .node.ready circle {
+            fill: #2ecc71;
+        }
+
+        .node.blocked circle {
+            fill: #e74c3c;
+        }
+
+        .node.in-progress circle {
+            fill: #3498db;
+        }
+
+        .node.closed circle {
+            fill: #95a5a6;
+        }
+
+        .node text {
+            font-size: 10px;
+            font-weight: 500;
+            text-anchor: middle;
+            dominant-baseline: central;
+            fill: white;
+            pointer-events: none;
+        }
+
+        .node.large text {
+            font-size: 8px;
+        }
+
+        .link {
+            stroke: #7f8c8d;
+            stroke-width: 1.5px;
+            fill: none;
+        }
+
+        .link.blocks {
+            stroke: #e74c3c;
+            marker-end: url(#arrowhead-blocks);
+        }
+
+        .link.related {
+            stroke: #3498db;
+            stroke-dasharray: 3,3;
+            marker-end: url(#arrowhead-related);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 200px;
+        }
+
+        .graph-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-line {
+            width: 20px;
+            height: 2px;
+        }
+
+        @media (max-width: 768px) {
+            #dependencyGraph {
+                height: 400px;
+            }
+
+            .graph-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+
+            .graph-legend {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
         }
 
         .loading {
@@ -310,19 +476,37 @@
             .issue-dates {
                 font-size: 10px;
             }
+
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-main {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .nav-button {
+                align-self: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔗 Beads Issue Tracker</h1>
-            <div class="stats">
-                <div class="stat">Total Issues: <span id="totalIssues">0</span></div>
-                <div class="stat">Ready: <span id="readyIssues">0</span></div>
-                <div class="stat">In Progress: <span id="inProgressIssues">0</span></div>
-                <div class="stat">Blocked: <span id="blockedIssues">0</span></div>
+            <div class="header-main">
+                <h1>🔗 Beads Issue Tracker</h1>
+                <div class="stats">
+                    <div class="stat">Total: <span id="totalIssues">0</span></div>
+                    <div class="stat">Ready: <span id="readyIssues">0</span></div>
+                    <div class="stat">In Progress: <span id="inProgressIssues">0</span></div>
+                    <div class="stat">Blocked: <span id="blockedIssues">0</span></div>
+                </div>
             </div>
+            <button id="jumpToGraphBtn" class="nav-button">📊 View Graph</button>
         </div>
 
         <div class="filters">
@@ -366,9 +550,40 @@
         <div id="issuesContainer" class="issues-list" style="display: none;"></div>
 
         <div class="graph-container">
-            <h3>Dependency Graph</h3>
-            <p>Dependency visualization would be implemented here using a graph library like D3.js or vis.js</p>
-            <p>For now, relationships are shown in individual issue cards above.</p>
+            <div class="graph-header">
+                <h3>Dependency Graph</h3>
+                <div class="graph-controls">
+                    <button id="resetGraphBtn">Reset View</button>
+                    <button id="toggleGraphBtn">Hide Graph</button>
+                </div>
+            </div>
+            <div id="dependencyGraph"></div>
+            <div class="graph-legend">
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #2ecc71;"></div>
+                    <span>Ready</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #3498db;"></div>
+                    <span>In Progress</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #e74c3c;"></div>
+                    <span>Blocked</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #95a5a6;"></div>
+                    <span>Closed</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background: #e74c3c;"></div>
+                    <span>Blocks</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background: #3498db; background-image: repeating-linear-gradient(90deg, transparent, transparent 3px, white 3px, white 6px);"></div>
+                    <span>Related</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -379,6 +594,8 @@
                 this.dependencies = [];
                 this.filteredIssues = [];
                 this.searchTerm = '';
+                this.graph = null;
+                this.graphVisible = true;
 
                 this.init();
             }
@@ -387,6 +604,7 @@
                 await this.loadData();
                 this.setupEventListeners();
                 this.render();
+                this.renderDependencyGraph();
             }
 
             async loadData() {
@@ -472,6 +690,20 @@
                         this.applyFiltersAndSearch();
                     });
                 });
+
+                // Graph controls
+                document.getElementById('resetGraphBtn').addEventListener('click', () => {
+                    this.resetGraph();
+                });
+
+                document.getElementById('toggleGraphBtn').addEventListener('click', () => {
+                    this.toggleGraph();
+                });
+
+                // Jump to graph button
+                document.getElementById('jumpToGraphBtn').addEventListener('click', () => {
+                    this.jumpToGraph();
+                });
             }
 
             async applyFiltersAndSearch() {
@@ -510,7 +742,7 @@
                     }
 
                     this.filteredIssues = issues;
-                    this.render();
+                    this.updateAll();
 
                 } catch (error) {
                     console.error('Error applying filters and search:', error);
@@ -620,6 +852,11 @@
                 this.updateStats();
             }
 
+            updateAll() {
+                this.render();
+                this.renderDependencyGraph();
+            }
+
             renderIssueCard(issue) {
                 const deps = this.getDependencies(issue.id);
                 const priorityClass = `p${issue.priority}`;
@@ -678,6 +915,251 @@
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('error').style.display = 'block';
                 document.getElementById('error').textContent = message;
+            }
+
+            renderDependencyGraph() {
+                if (!this.graphVisible) return;
+
+                const container = d3.select('#dependencyGraph');
+                container.selectAll('*').remove();
+
+                if (this.issues.length === 0) {
+                    container.append('div')
+                        .style('display', 'flex')
+                        .style('align-items', 'center')
+                        .style('justify-content', 'center')
+                        .style('height', '100%')
+                        .style('color', '#7f8c8d')
+                        .text('No issues to display');
+                    return;
+                }
+
+                // Set up dimensions
+                const containerRect = container.node().getBoundingClientRect();
+                const width = containerRect.width;
+                const height = containerRect.height || 500;
+
+                // Create SVG
+                const svg = container.append('svg')
+                    .attr('width', width)
+                    .attr('height', height);
+
+                // Add arrow markers
+                const defs = svg.append('defs');
+
+                defs.append('marker')
+                    .attr('id', 'arrowhead-blocks')
+                    .attr('viewBox', '0 -5 10 10')
+                    .attr('refX', 15)
+                    .attr('refY', 0)
+                    .attr('markerWidth', 6)
+                    .attr('markerHeight', 6)
+                    .attr('orient', 'auto')
+                    .append('path')
+                    .attr('d', 'M0,-5L10,0L0,5')
+                    .attr('fill', '#e74c3c');
+
+                defs.append('marker')
+                    .attr('id', 'arrowhead-related')
+                    .attr('viewBox', '0 -5 10 10')
+                    .attr('refX', 15)
+                    .attr('refY', 0)
+                    .attr('markerWidth', 6)
+                    .attr('markerHeight', 6)
+                    .attr('orient', 'auto')
+                    .append('path')
+                    .attr('d', 'M0,-5L10,0L0,5')
+                    .attr('fill', '#3498db');
+
+                // Prepare graph data
+                const nodes = this.issues.map(issue => ({
+                    id: issue.id,
+                    title: issue.title,
+                    status: issue.status,
+                    priority: issue.priority,
+                    ready: this.isReady(issue),
+                    blocked: this.isBlocked(issue)
+                }));
+
+                const links = this.dependencies.map(dep => ({
+                    source: dep.depends_on_id,
+                    target: dep.issue_id,
+                    type: dep.type || 'blocks'
+                }));
+
+                // Create force simulation
+                const simulation = d3.forceSimulation(nodes)
+                    .force('link', d3.forceLink(links).id(d => d.id).distance(100).strength(0.5))
+                    .force('charge', d3.forceManyBody().strength(-300))
+                    .force('center', d3.forceCenter(width / 2, height / 2))
+                    .force('collision', d3.forceCollide().radius(25));
+
+                // Create zoom behavior
+                const zoom = d3.zoom()
+                    .scaleExtent([0.5, 3])
+                    .on('zoom', (event) => {
+                        g.attr('transform', event.transform);
+                    });
+
+                svg.call(zoom);
+
+                const g = svg.append('g');
+
+                // Create links
+                const link = g.append('g')
+                    .selectAll('line')
+                    .data(links)
+                    .enter().append('line')
+                    .attr('class', d => `link ${d.type}`)
+                    .attr('stroke-width', 2);
+
+                // Create tooltip
+                const tooltip = d3.select('body').append('div')
+                    .attr('class', 'tooltip')
+                    .style('opacity', 0);
+
+                // Create nodes
+                const node = g.append('g')
+                    .selectAll('g')
+                    .data(nodes)
+                    .enter().append('g')
+                    .attr('class', d => {
+                        let classes = 'node';
+                        if (d.ready) classes += ' ready';
+                        else if (d.blocked) classes += ' blocked';
+                        else if (d.status === 'in_progress') classes += ' in-progress';
+                        else if (d.status === 'closed') classes += ' closed';
+
+                        if (d.title.length > 10) classes += ' large';
+
+                        return classes;
+                    })
+                    .call(d3.drag()
+                        .on('start', dragstarted)
+                        .on('drag', dragged)
+                        .on('end', dragended));
+
+                // Add circles to nodes
+                node.append('circle')
+                    .attr('r', d => {
+                        // Size based on priority (smaller number = higher priority = larger circle)
+                        return 15 + (4 - d.priority) * 3;
+                    });
+
+                // Add text to nodes
+                node.append('text')
+                    .text(d => {
+                        // Show priority and short ID
+                        const shortId = d.id.replace('get-somm-', '');
+                        return `P${d.priority}-${shortId}`;
+                    });
+
+                // Add hover interactions
+                node
+                    .on('mouseover', (event, d) => {
+                        tooltip.transition()
+                            .duration(200)
+                            .style('opacity', .9);
+                        tooltip.html(`
+                            <strong>${d.id}</strong><br>
+                            ${d.title}<br>
+                            Status: ${d.status}<br>
+                            Priority: P${d.priority}<br>
+                            ${d.ready ? 'Ready to work' : d.blocked ? 'Blocked' : ''}
+                        `)
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 28) + 'px');
+                    })
+                    .on('mouseout', () => {
+                        tooltip.transition()
+                            .duration(500)
+                            .style('opacity', 0);
+                    });
+
+                // Update positions on simulation tick
+                simulation.on('tick', () => {
+                    link
+                        .attr('x1', d => d.source.x)
+                        .attr('y1', d => d.source.y)
+                        .attr('x2', d => d.target.x)
+                        .attr('y2', d => d.target.y);
+
+                    node
+                        .attr('transform', d => `translate(${d.x},${d.y})`);
+                });
+
+                // Drag functions
+                function dragstarted(event, d) {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                }
+
+                function dragged(event, d) {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                }
+
+                function dragended(event, d) {
+                    if (!event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                }
+
+                // Store references for controls
+                this.graph = { simulation, svg, zoom, tooltip };
+            }
+
+            resetGraph() {
+                if (this.graph && this.graph.svg) {
+                    this.graph.svg
+                        .transition()
+                        .duration(750)
+                        .call(this.graph.zoom.transform, d3.zoomIdentity);
+                }
+            }
+
+            toggleGraph() {
+                const button = document.getElementById('toggleGraphBtn');
+                const graphContainer = document.querySelector('.graph-container');
+
+                if (this.graphVisible) {
+                    document.getElementById('dependencyGraph').style.display = 'none';
+                    document.querySelector('.graph-legend').style.display = 'none';
+                    button.textContent = 'Show Graph';
+                    this.graphVisible = false;
+                } else {
+                    document.getElementById('dependencyGraph').style.display = 'block';
+                    document.querySelector('.graph-legend').style.display = 'flex';
+                    button.textContent = 'Hide Graph';
+                    this.graphVisible = true;
+                    // Re-render the graph
+                    setTimeout(() => this.renderDependencyGraph(), 100);
+                }
+            }
+
+            jumpToGraph() {
+                // Ensure graph is visible
+                if (!this.graphVisible) {
+                    this.toggleGraph();
+                }
+
+                // Smooth scroll to graph
+                const graphContainer = document.querySelector('.graph-container');
+                if (graphContainer) {
+                    graphContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                    // Add a subtle highlight effect
+                    graphContainer.style.transition = 'box-shadow 0.3s ease';
+                    graphContainer.style.boxShadow = '0 4px 12px rgba(52, 152, 219, 0.3)';
+
+                    setTimeout(() => {
+                        graphContainer.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                    }, 1500);
+                }
             }
         }
 

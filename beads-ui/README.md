@@ -6,9 +6,18 @@ A simple web interface for viewing and managing Beads issues and their relations
 
 - **📋 Issue Management**: View all issues with filtering by status, priority, and readiness
 - **📊 Statistics Dashboard**: Real-time stats showing total, ready, in-progress, and blocked issues
-- **🔗 Dependency Visualization**: See blocking relationships between issues
-- **🔍 Smart Filtering**: Filter by status, priority, or view ready/blocked issues
+- **🔗 Interactive Dependency Graph**: Visual network showing issue relationships with D3.js
+- **🔍 Smart Search**: Real-time search across issue titles, descriptions, and IDs with highlighting
+- **🎯 Smart Filtering**: Filter by status, priority, or view ready/blocked issues
 - **📱 Responsive Design**: Works on desktop and mobile devices
+
+### Dependency Graph Features
+- **Interactive Visualization**: Drag nodes, zoom, and pan to explore relationships
+- **Color-coded Status**: Ready (green), blocked (red), in-progress (blue), closed (gray)
+- **Priority-based Sizing**: Higher priority issues appear larger
+- **Hover Tooltips**: Detailed issue information on hover
+- **Relationship Types**: Solid arrows for "blocks", dashed for "related"
+- **Graph Controls**: Reset view and hide/show graph options
 
 ## Quick Start
 
